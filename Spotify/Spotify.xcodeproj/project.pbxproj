@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		DD60BD6A2D12EC0600F6471E /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = DD60BD692D12EC0600F6471E /* FirebaseAuth */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		DD60BD362D10693300F6471E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -65,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD60BD6A2D12EC0600F6471E /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +130,7 @@
 			);
 			name = Spotify;
 			packageProductDependencies = (
+				DD60BD692D12EC0600F6471E /* FirebaseAuth */,
 			);
 			productName = Spotify;
 			productReference = DD60BD1C2D10693100F6471E /* Spotify.app */;
@@ -208,6 +214,9 @@
 			);
 			mainGroup = DD60BD132D10693100F6471E;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				DD60BD682D12EC0600F6471E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DD60BD1D2D10693100F6471E /* Products */;
 			projectDirPath = "";
@@ -563,6 +572,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DD60BD682D12EC0600F6471E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DD60BD692D12EC0600F6471E /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DD60BD682D12EC0600F6471E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = DD60BD142D10693100F6471E /* Project object */;
 }

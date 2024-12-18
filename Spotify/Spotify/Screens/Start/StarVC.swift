@@ -109,7 +109,12 @@ class StarVC: UIViewController {
 
     @IBAction private func signUpButtonClicked(_ sender: Any) {
         buttonAnimate(signUpButton)
-        //TODO: Handle sign up button click
+        let vc = SignUPV()
+        let viewModel = SignUPVM()
+        vc.viewModel = viewModel
+        // full screen  modal presentation
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true)
     }
     @IBAction private func logInButtonClicked(_ sender: Any) {
         buttonAnimate(logInButton)

@@ -14,10 +14,13 @@ protocol SignUPVMProtocol {
     var getPassword: String { get set }
 
     func signUp(_ email: String, _ password: String)
+    func checkEmailIsValid(_ email: String) -> Bool
+    func nextButtonClicked(text: String)
 }
 
 protocol SignUPVMDelegate: AnyObject {
-
+    func showAlert(_ title: String, _ message: String)
+    func updateLabels()
 }
 
 final class SignUPVM {
@@ -35,6 +38,28 @@ final class SignUPVM {
 }
 
 extension SignUPVM: SignUPVMProtocol {
+    func nextButtonClicked(text: String) {
+        if !checkEmailIsValid(text) && getState == .email {
+            delegate?.showAlert(
+                "Invalid Email",
+                "Please enter a valid email."
+            )
+        } else if getState == .password {
+            getPassword = text
+            signUp(getEmail, getPassword)
+        } else if checkEmailIsValid(text) {
+            getEmail = text
+            getState = .password
+            delegate?.updateLabels()
+        }
+    }
+
+    func checkEmailIsValid(_ email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailPred = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: email)
+    }
+
     var getEmail: String {
         get {
             email
@@ -70,12 +95,14 @@ extension SignUPVM: SignUPVMProtocol {
 
             switch result {
             case .success:
-                // Show success message
-                print("email: \(email) password: \(password)")
+                self.delegate?.showAlert(
+                    "Success",
+                    "You have signed up successfully.")
                 break
             case .failure(let error):
-                // Show error message
-                print(error)
+                self.delegate?.showAlert(
+                    "Error",
+                    error.localizedDescription)
                 break
             }
 

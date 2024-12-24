@@ -7,8 +7,8 @@
 
 import UIKit
 
+//MARK: - ChooseArtistV
 class ChooseArtistV: UIViewController {
-
 
     @IBOutlet private weak var emptyLabel: UILabel!
     @IBOutlet private weak var searchBar: UISearchBar!
@@ -26,6 +26,7 @@ class ChooseArtistV: UIViewController {
         setUpConfigures()
     }
 
+    //MARK: - Configure Functions
     private func configureNavigationTitle() {
         // modify font and color of title
         let textAttributes = [
@@ -96,7 +97,24 @@ extension ChooseArtistV: UICollectionViewDelegate, UICollectionViewDataSource {
             artistImage: viewModel.getArtistImages[actualIndex]
         )
 
+        if viewModel.getSelectedIndexPaths.contains(indexPath) {
+            cell.selectCell()
+        }
+        else {
+            cell.deselectCell()
+        }
+
         return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+        if viewModel.getSelectedIndexPaths.contains(indexPath) {
+            viewModel.getSelectedIndexPaths.removeAll { $0 == indexPath }
+        } else {
+            viewModel.getSelectedIndexPaths.append(indexPath)
+        }
+        updateCollectionView()
     }
 
 }

@@ -12,6 +12,7 @@ protocol ChooseArtistVMProtocol {
     var getArtistsName: [String] { get }
     var getArtistImages: [String] { get }
     var getIsSearching: Bool { get }
+    var getSelectedIndexPaths: [IndexPath] { get set }
 
     func searchArtist(with searchText: String)
 }
@@ -28,6 +29,7 @@ final class ChooseArtistVM {
 
     private let artistsName = ["The Weeknd", "Sagopa Kajmer", "Tarkan", "Billie Ellish", "Ed Sheeran"]
     private let artistImages = ["weeknd", "sagopa", "tarkan", "billie", "ed"]
+    private var selectedIndexPaths = [IndexPath]()
     private var filteredArtistsName = [String]()
     private var filteredArtistImages = [String]()
     private var isSearching = false
@@ -40,6 +42,7 @@ final class ChooseArtistVM {
 
 extension ChooseArtistVM: ChooseArtistVMProtocol {
 
+    var getSelectedIndexPaths: [IndexPath] { get { selectedIndexPaths } set { selectedIndexPaths = newValue } }
     var getIsSearching: Bool { isSearching }
     var getArtistsName: [String] { filteredArtistsName }
     var getArtistImages: [String] { filteredArtistImages }

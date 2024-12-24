@@ -35,4 +35,12 @@ final class ArtistCell: UICollectionViewCell {
         imageView.image = UIImage(named: artistImage)
     }
 
+    func selectCell() {
+        imageView.layer.borderColor = ColorTheme.green!.cgColor
+    }
+
+    func deselectCell() {
+        imageView.layer.borderColor = UIColor.white.withAlphaComponent(0.1).cgColor
+    }
+
 }

@@ -13,13 +13,9 @@ final class ArtistCell: UICollectionViewCell {
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var label: UILabel!
 
-    private let artistsName = ["The Weeknd", "Sagopa Kajmer", "Tarkan", "Billie Ellish", "Ed Sheeran"]
-    private let artistImages = ["weeknd", "sagopa", "tarkan", "billie", "ed"]
-
     override func awakeFromNib() {
         super.awakeFromNib()
         configureImageVIew()
-        configureCell()
         backGroundView.backgroundColor = ColorTheme.black
     }
 
@@ -34,10 +30,9 @@ final class ArtistCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
     }
 
-    private func configureCell() {
-        let randomIndex = Int.random(in: 0..<artistsName.count)
-        label.text = artistsName[randomIndex]
-        imageView.image = UIImage(named: artistImages[randomIndex])
+    func configureCell(with artistName: String, artistImage: String) {
+        label.text = artistName
+        imageView.image = UIImage(named: artistImage)
     }
 
 }

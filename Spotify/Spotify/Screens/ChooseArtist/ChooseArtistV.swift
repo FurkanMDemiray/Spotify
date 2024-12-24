@@ -49,12 +49,18 @@ class ChooseArtistV: UIViewController {
 extension ChooseArtistV: UICollectionViewDelegate, UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 18
+        return 21
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellIdentifier.rawValue, for: indexPath) as? ArtistCell else { return UICollectionViewCell() }
 
+        let actualIndex = indexPath.item % viewModel.getArtistsName.count
+
+        cell.configureCell(
+            with: viewModel.getArtistsName[actualIndex],
+            artistImage: viewModel.getArtistImages[actualIndex]
+        )
         return cell
     }
 

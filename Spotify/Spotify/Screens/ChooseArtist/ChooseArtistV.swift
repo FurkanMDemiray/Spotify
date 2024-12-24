@@ -9,7 +9,10 @@ import UIKit
 
 class ChooseArtistV: UIViewController {
 
-    @IBOutlet weak var collectionView: UICollectionView!
+
+    @IBOutlet private weak var emptyLabel: UILabel!
+    @IBOutlet private weak var searchBar: UISearchBar!
+    @IBOutlet private weak var collectionView: UICollectionView!
 
     var viewModel: ChooseArtistVMProtocol! {
         didSet {
@@ -20,8 +23,7 @@ class ChooseArtistV: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = ColorTheme.black
-        configureCollectionView()
-        configureNavigationTitle()
+        setUpConfigures()
     }
 
     private func configureNavigationTitle() {
@@ -44,12 +46,44 @@ class ChooseArtistV: UIViewController {
         )
     }
 
+    private func configureSearchBar() {
+        searchBar.searchTextField.textColor = .white
+        searchBar.searchTextField.tintColor = .white
+        searchBar.barTintColor = ColorTheme.black
+        searchBar.searchTextField.backgroundColor = ColorTheme.lightBlack
+    }
+
+    private func setEmptyLabel() {
+        emptyLabel.text = "No artist found."
+        emptyLabel.isHidden = true
+    }
+
+    private func setUpConfigures() {
+        configureCollectionView()
+        configureNavigationTitle()
+        configureSearchBar()
+        setEmptyLabel()
+    }
+
 }
 
+//MARK: - SearchBar
+extension ChooseArtistV: UISearchBarDelegate {
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.searchArtist(with: searchText)
+    }
+}
+
+//MARK: - CollectionView
 extension ChooseArtistV: UICollectionViewDelegate, UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 21
+        if viewModel.getIsSearching {
+            return viewModel.getArtistsName.count
+        } else {
+            return 30
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -61,11 +95,13 @@ extension ChooseArtistV: UICollectionViewDelegate, UICollectionViewDataSource {
             with: viewModel.getArtistsName[actualIndex],
             artistImage: viewModel.getArtistImages[actualIndex]
         )
+
         return cell
     }
 
 }
 
+//MARK: - CollectionViewFlowLayout
 extension ChooseArtistV: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -77,8 +113,21 @@ extension ChooseArtistV: UICollectionViewDelegateFlowLayout {
     }
 }
 
+//MARK: - ChooseArtistVMDelegate
 extension ChooseArtistV: ChooseArtistVMDelegate {
+    func showEmptyLabel() {
+        emptyLabel.isHidden = false
+    }
 
+    func hideEmptyLabel() {
+        emptyLabel.isHidden = true
+    }
+
+    func updateCollectionView() {
+        DispatchQueue.main.async { [weak self] in
+            self?.collectionView.reloadData()
+        }
+    }
 }
 
 private enum Constants: String {

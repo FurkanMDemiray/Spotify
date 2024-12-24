@@ -12,6 +12,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChooseArtistV" customModule="Spotify" customModuleProvider="target">
             <connections>
                 <outlet property="collectionView" destination="b3A-4L-HiL" id="Wx4-E8-OwU"/>
+                <outlet property="emptyLabel" destination="csx-Jp-2u6" id="rqy-Cc-XAt"/>
+                <outlet property="searchBar" destination="zcf-Jf-6zf" id="pSm-fL-Yar"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -20,13 +22,8 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vof-kW-lQf">
-                    <rect key="frame" x="16" y="67" width="361" height="34"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits"/>
-                </textField>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="b3A-4L-HiL">
-                    <rect key="frame" x="0.0" y="117" width="393" height="701"/>
+                    <rect key="frame" x="0.0" y="131" width="393" height="687"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="qEJ-ih-ypL">
                         <size key="itemSize" width="128" height="128"/>
@@ -35,17 +32,35 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                 </collectionView>
+                <searchBar contentMode="redraw" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="zcf-Jf-6zf">
+                    <rect key="frame" x="0.0" y="67" width="393" height="56"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="barTintColor" red="0.070588235289999995" green="0.070588235289999995" blue="0.070588235289999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="1mC-SO-wPm"/>
+                    </connections>
+                </searchBar>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="csx-Jp-2u6">
+                    <rect key="frame" x="196.66666666666666" y="466" width="0.0" height="0.0"/>
+                    <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="18"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="vof-kW-lQf" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="Aak-gk-iqP"/>
+                <constraint firstItem="zcf-Jf-6zf" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="8" id="6BU-WF-31M"/>
+                <constraint firstItem="b3A-4L-HiL" firstAttribute="top" secondItem="zcf-Jf-6zf" secondAttribute="bottom" constant="8" id="Bae-Qw-Wb8"/>
+                <constraint firstItem="zcf-Jf-6zf" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="BsR-LF-XUn"/>
+                <constraint firstItem="zcf-Jf-6zf" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="WTb-Lk-0eB"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="b3A-4L-HiL" secondAttribute="bottom" id="XvV-1I-gWE"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="vof-kW-lQf" secondAttribute="trailing" constant="16" id="g1O-Bs-OKe"/>
-                <constraint firstItem="vof-kW-lQf" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="8" id="g7a-Ks-nzM"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="b3A-4L-HiL" secondAttribute="trailing" id="oef-oI-GiB"/>
+                <constraint firstItem="csx-Jp-2u6" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="qD3-Hn-hz4"/>
                 <constraint firstItem="b3A-4L-HiL" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="vRr-7P-bGQ"/>
-                <constraint firstItem="b3A-4L-HiL" firstAttribute="top" secondItem="vof-kW-lQf" secondAttribute="bottom" constant="16" id="ya1-t8-xJn"/>
+                <constraint firstItem="csx-Jp-2u6" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" constant="40" id="xkX-c0-Tlh"/>
             </constraints>
             <point key="canvasLocation" x="-166" y="-38"/>
         </view>

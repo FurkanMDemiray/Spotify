@@ -5,6 +5,7 @@
 //  Created by Melik Demiray on 16.12.2024.
 //
 
+import FirebaseAuth
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -22,10 +23,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
 
-        let starVC = StarVC()
-        starVC.viewModel = StartVM()
-        window?.rootViewController = starVC
+        let navigationVC = UINavigationController()
+        window?.rootViewController = navigationVC
         window?.makeKeyAndVisible()
+
+        if Auth.auth().currentUser != nil {
+            let vc = ChooseArtistV()
+            let viewModel = ChooseArtistVM()
+            vc.viewModel = viewModel
+            navigationVC.pushViewController(vc, animated: false)
+
+        } else {
+            let startVC = StartV()
+            startVC.viewModel = StartVM()
+            navigationVC.pushViewController(startVC, animated: false)
+        }
+
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

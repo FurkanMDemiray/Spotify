@@ -32,13 +32,24 @@ class SignUPV: UIViewController {
         warningLabel.text = "You'll need to confirm this email later."
     }
 
-    @IBAction func nextButtonClicked(_ sender: Any) {
+    @IBAction private func nextButtonClicked(_ sender: Any) {
         guard let text = textField.text else { return }
         viewModel.nextButtonClicked(text: text)
     }
 }
 
 extension SignUPV: SignUPVMDelegate {
+    func navigateToChooseArtistScreen() {
+        let vc = ChooseArtistV()
+        vc.viewModel = ChooseArtistVM()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func showAlertCompletion(_ title: String, _ message: String, completion: @escaping () -> Void) {
+        self.showAlert(
+            title: title, message: message, completion: completion)
+    }
+
     func showAlert(_ title: String, _ message: String) {
         self.showAlert(
             title: title, message: message)

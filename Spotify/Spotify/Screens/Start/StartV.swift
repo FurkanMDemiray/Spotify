@@ -7,7 +7,7 @@
 
 import UIKit
 
-class StarVC: UIViewController {
+class StartV: UIViewController {
 
     @IBOutlet private weak var appleView: UIView!
     @IBOutlet private weak var facebookView: UIView!
@@ -112,16 +112,17 @@ class StarVC: UIViewController {
         let vc = SignUPV()
         let viewModel = SignUPVM()
         vc.viewModel = viewModel
-        // full screen  modal presentation
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
     @IBAction private func logInButtonClicked(_ sender: Any) {
         buttonAnimate(logInButton)
-        //TODO: Handle log in button click
+        let vc = LogInV()
+        let viewModel = LogInVM()
+        vc.viewModel = viewModel
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
-extension StarVC: StartVMDelegate {
+extension StartV: StartVMDelegate {
 
 }

@@ -13,14 +13,15 @@ protocol SignUPVMProtocol {
     var getEmail: String { get set }
     var getPassword: String { get set }
 
-    func signUp(_ email: String, _ password: String)
-    func checkEmailIsValid(_ email: String) -> Bool
     func nextButtonClicked(text: String)
 }
 
 protocol SignUPVMDelegate: AnyObject {
     func showAlert(_ title: String, _ message: String)
+    func showAlertCompletion(
+        _ title: String, _ message: String, completion: @escaping () -> Void)
     func updateLabels()
+    func navigateToChooseArtistScreen()
 }
 
 final class SignUPVM {
@@ -35,30 +36,42 @@ final class SignUPVM {
         self.firebaseManager = firebaseManager
     }
 
-}
+    //MARK: Private Functions
 
-extension SignUPVM: SignUPVMProtocol {
-    func nextButtonClicked(text: String) {
-        if !checkEmailIsValid(text) && getState == .email {
-            delegate?.showAlert(
-                "Invalid Email",
-                "Please enter a valid email."
-            )
-        } else if getState == .password {
-            getPassword = text
-            signUp(getEmail, getPassword)
-        } else if checkEmailIsValid(text) {
-            getEmail = text
-            getState = .password
-            delegate?.updateLabels()
+    private func signUp(_ email: String, _ password: String) {
+        // Call FirebaseManager to sign up
+        firebaseManager.signUp(email: email, password: password) {
+            [weak self] result in
+            guard let self else { return }
+
+            switch result {
+            case .success:
+                self.delegate?.showAlertCompletion(
+                    "Success",
+                    "You have successfully signed up.",
+                    completion: {
+                        self.delegate?.navigateToChooseArtistScreen()
+                    })
+                break
+            case .failure(let error):
+                self.delegate?.showAlert(
+                    "Error",
+                    error.localizedDescription)
+                break
+            }
+
         }
     }
 
-    func checkEmailIsValid(_ email: String) -> Bool {
+    private func checkEmailIsValid(_ email: String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let emailPred = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: email)
     }
+
+}
+
+extension SignUPVM: SignUPVMProtocol {
 
     var getEmail: String {
         get {
@@ -87,25 +100,21 @@ extension SignUPVM: SignUPVMProtocol {
         }
     }
 
-    func signUp(_ email: String, _ password: String) {
-        // Call FirebaseManager to sign up
-        firebaseManager.signUp(email: email, password: password) {
-            [weak self] result in
-            guard let self else { return }
+    //MARK: Functions
 
-            switch result {
-            case .success:
-                self.delegate?.showAlert(
-                    "Success",
-                    "You have signed up successfully.")
-                break
-            case .failure(let error):
-                self.delegate?.showAlert(
-                    "Error",
-                    error.localizedDescription)
-                break
-            }
-
+    func nextButtonClicked(text: String) {
+        if !checkEmailIsValid(text) && getState == .email {
+            delegate?.showAlert(
+                "Invalid Email",
+                "Please enter a valid email."
+            )
+        } else if getState == .password {
+            getPassword = text
+            signUp(getEmail, getPassword)
+        } else if checkEmailIsValid(text) {
+            getEmail = text
+            getState = .password
+            delegate?.updateLabels()
         }
     }
 

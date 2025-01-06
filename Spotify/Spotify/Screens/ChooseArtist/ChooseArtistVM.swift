@@ -15,12 +15,14 @@ protocol ChooseArtistVMProtocol {
     var getSelectedIndexPaths: [IndexPath] { get set }
 
     func searchArtist(with searchText: String)
+    func doneButtonClicked()
 }
 
 protocol ChooseArtistVMDelegate: AnyObject {
     func updateCollectionView()
     func showEmptyLabel()
     func hideEmptyLabel()
+    func navigateToMainScreen()
 }
 
 final class ChooseArtistVM {
@@ -37,6 +39,11 @@ final class ChooseArtistVM {
     init() {
         filteredArtistsName = artistsName
         filteredArtistImages = artistImages
+    }
+
+    private func saveArtistStatusToUserdefaults() {
+        let defaults = UserDefaults.standard
+        defaults.set(!selectedIndexPaths.isEmpty, forKey: "isArtistSelected")
     }
 }
 
@@ -68,4 +75,10 @@ extension ChooseArtistVM: ChooseArtistVMProtocol {
 
         delegate?.updateCollectionView()
     }
+
+    func doneButtonClicked() {
+        saveArtistStatusToUserdefaults()
+        delegate?.navigateToMainScreen()
+    }
+
 }

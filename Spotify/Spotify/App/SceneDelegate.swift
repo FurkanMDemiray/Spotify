@@ -28,10 +28,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
 
         if Auth.auth().currentUser != nil {
-            let vc = ChooseArtistV()
-            let viewModel = ChooseArtistVM()
-            vc.viewModel = viewModel
-            navigationVC.pushViewController(vc, animated: false)
+            // get isArtistSelected from userdefaults
+            let isArtistSelected = UserDefaults.standard.bool(forKey: "isArtistSelected")
+
+            if !isArtistSelected {
+                let vc = ChooseArtistV()
+                let viewModel = ChooseArtistVM()
+                vc.viewModel = viewModel
+                navigationVC.pushViewController(vc, animated: false)
+            } else {
+                let mainVC = MainV()
+                mainVC.viewModel = MainVM()
+                navigationVC.pushViewController(mainVC, animated: false)
+            }
 
         } else {
             let startVC = StartV()

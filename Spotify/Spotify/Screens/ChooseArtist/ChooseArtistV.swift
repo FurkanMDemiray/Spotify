@@ -66,6 +66,10 @@ class ChooseArtistV: UIViewController {
         setEmptyLabel()
     }
 
+    @IBAction private func doneButtonClicked(_ sender: Any) {
+        viewModel.doneButtonClicked()
+    }
+
 }
 
 //MARK: - SearchBar
@@ -133,6 +137,12 @@ extension ChooseArtistV: UICollectionViewDelegateFlowLayout {
 
 //MARK: - ChooseArtistVMDelegate
 extension ChooseArtistV: ChooseArtistVMDelegate {
+    func navigateToMainScreen() {
+        let vc = MainV()
+        vc.viewModel = MainVM()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func showEmptyLabel() {
         emptyLabel.isHidden = false
     }

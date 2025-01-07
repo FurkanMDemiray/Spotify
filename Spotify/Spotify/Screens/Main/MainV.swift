@@ -58,6 +58,12 @@ class MainV: UIViewController {
         return view
     }()
 
+    private let lastPlayedView: LastPlayedV = {
+        let view = LastPlayedV()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
     private func setDelegates() {
         sideMenuView.delegate = self
         headerView.delegate = self
@@ -123,8 +129,11 @@ class MainV: UIViewController {
     }
 
     private func addSampleContent() {
-        // Add headerView to stackView
         stackView.addArrangedSubview(headerView)
+        stackView.addArrangedSubview(lastPlayedView)
+        
+        // Update height to accommodate 4 rows (4 * 200 + padding)
+        lastPlayedView.heightAnchor.constraint(equalToConstant: 300).isActive = true
     }
 
     // Function to show the side menu with slide animation

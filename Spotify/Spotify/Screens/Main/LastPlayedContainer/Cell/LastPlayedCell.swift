@@ -55,8 +55,7 @@ class LastPlayedCell: UICollectionViewCell {
 
     private func setupCell() {
         imageView.image = UIImage(named: "billie")
-        imageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
-//        imageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 60).isActive = true
 
         stackView.addArrangedSubview(imageView)
         stackView.addArrangedSubview(titleLabel)

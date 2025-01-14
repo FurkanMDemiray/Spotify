@@ -58,8 +58,16 @@ class MainV: UIViewController {
         return view
     }()
 
+    //MARK: Last Played View
     private let lastPlayedView: LastPlayedV = {
         let view = LastPlayedV()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    //MARK: New Release
+    private let newReleaseView: NewReleaseView = {
+        let view = NewReleaseView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -90,7 +98,7 @@ class MainV: UIViewController {
 
         // Optionally update profile
         sideMenuView.updateUsername("Furkan")
-        sideMenuView.updateProfileImage(UIImage(systemName: "person.fill"))
+        sideMenuView.updateProfileImage(UIImage(named: "ed"))
 
         // Add contentView to scrollView
         scrollView.addSubview(contentView)
@@ -131,6 +139,7 @@ class MainV: UIViewController {
     private func addSampleContent() {
         stackView.addArrangedSubview(headerView)
         stackView.addArrangedSubview(lastPlayedView)
+        stackView.addArrangedSubview(newReleaseView)
         
         // Update height to accommodate 4 rows (4 * 200 + padding)
         lastPlayedView.heightAnchor.constraint(equalToConstant: 300).isActive = true

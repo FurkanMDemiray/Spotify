@@ -38,7 +38,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 navigationVC.pushViewController(vc, animated: false)
             } else {
                 let mainVC = MainV()
-                mainVC.viewModel = MainVM()
+                mainVC.viewModel = MainVM(soundManager: SoundPlayer.shared)
                 navigationVC.pushViewController(mainVC, animated: false)
             }
 

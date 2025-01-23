@@ -180,7 +180,7 @@ class NewReleaseView: UIView {
     private func addSubViews() {
         addSubview(singerHstack)
         addSubview(songContainerHStack)
-    }
+    }	
 
     private func configureConstraints() {
 

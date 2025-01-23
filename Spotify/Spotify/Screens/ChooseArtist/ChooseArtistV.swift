@@ -139,7 +139,7 @@ extension ChooseArtistV: UICollectionViewDelegateFlowLayout {
 extension ChooseArtistV: ChooseArtistVMDelegate {
     func navigateToMainScreen() {
         let vc = MainV()
-        vc.viewModel = MainVM()
+        vc.viewModel = MainVM(soundManager: SoundPlayer.shared)
         navigationController?.pushViewController(vc, animated: true)
     }
     

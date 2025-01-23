@@ -10,13 +10,13 @@ import UIKit
 class MainV: UIViewController {
 
     // MARK: - Properties
-
     var viewModel: MainVMProtocol! {
         didSet {
             viewModel.delegate = self
         }
     }
 
+    // MARK: - UI Properties
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -72,13 +72,20 @@ class MainV: UIViewController {
         return view
     }()
 
+    //MARK: - PlayCard
+    private let playCard: PlayCardView = {
+        let view = PlayCardView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
     private func setDelegates() {
         sideMenuView.delegate = self
         headerView.delegate = self
+        playCard.delegate = self
     }
 
     // MARK: - LifeCycle
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setDelegates()
@@ -92,6 +99,9 @@ class MainV: UIViewController {
 
         // Add scrollView to main view
         view.addSubview(scrollView)
+
+        // Add playCard to main view (scrollView'dan sonra ekliyoruz ki üstte görünsün)
+        view.addSubview(playCard)
 
         // Add side menu to main view
         view.addSubview(sideMenuView)
@@ -108,17 +118,17 @@ class MainV: UIViewController {
 
         // Set up constraints
         NSLayoutConstraint.activate([
-
-            // SideMenu constraints
-            sideMenuView.topAnchor.constraint(equalTo: view.topAnchor),
-            sideMenuView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            sideMenuView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            sideMenuView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8), // 80% of screen width
-            // ScrollView constraints
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            // ScrollView constraints - playCard için bottom padding ekliyoruz
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: playCard.topAnchor, constant: -8), // PlayCard'a kadar
+
+            // PlayCard constraints
+            playCard.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+            playCard.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+            playCard.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
+            playCard.heightAnchor.constraint(equalToConstant: 80), // Yüksekliği sabit
 
             // ContentView constraints
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
@@ -131,16 +141,21 @@ class MainV: UIViewController {
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-            ])
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
 
+            // SideMenu constraints
+            sideMenuView.topAnchor.constraint(equalTo: view.topAnchor),
+            sideMenuView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            sideMenuView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            sideMenuView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8)
+            ])
     }
 
     private func addSampleContent() {
         stackView.addArrangedSubview(headerView)
         stackView.addArrangedSubview(lastPlayedView)
         stackView.addArrangedSubview(newReleaseView)
-        
+
         // Update height to accommodate 4 rows (4 * 200 + padding)
         lastPlayedView.heightAnchor.constraint(equalToConstant: 300).isActive = true
     }
@@ -173,7 +188,9 @@ class MainV: UIViewController {
 }
 
 extension MainV: MainVMDelegate {
-
+    func updatePlayButtonState(isPlaying: Bool) {
+        playCard.updatePlayButtonState(isPlaying: isPlaying)
+    }
 }
 
 extension MainV: HeaderVDelegate {
@@ -198,6 +215,12 @@ extension MainV: SideMenuDelegate {
         //
     }
 
+}
+
+extension MainV: PlayCardViewDelegate {
+    func didTapPlayButton() {
+        viewModel.playSound()
+    }
 }
 
 
